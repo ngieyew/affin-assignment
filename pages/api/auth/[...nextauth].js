@@ -6,7 +6,7 @@ import { verifyPassword } from '../../../helpers/auth';
 
 export default NextAuth({
   session: {
-    jwt: true,
+    jwt: { signingKey: process.env.JWT_SIGNING_PRIVATE_KEY },
   },
   providers: [
     Providers.Credentials({
