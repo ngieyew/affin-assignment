@@ -1,3 +1,5 @@
+import { getSession } from 'next-auth/client';
+
 import { hashPassword } from '../../../helpers/auth';
 import { dbConnect } from '../../../helpers/dbProvider';
 
@@ -15,6 +17,13 @@ async function handler(req, res) {
     return;
   }
   if (req.method === 'POST') {
+    const session = await getSession({ req });
+
+    if (!session) {
+      res.status(401).json({ message: 'Not authenticated!' });
+      return;
+    }
+
     const { email, password, name } = req.body;
 
     if (
@@ -57,6 +66,13 @@ async function handler(req, res) {
     return;
   }
   if (req.method === 'PATCH') {
+    const session = await getSession({ req });
+
+    if (!session) {
+      res.status(401).json({ message: 'Not authenticated!' });
+      return;
+    }
+
     const { email, password, name } = req.body;
 
     if (
@@ -103,6 +119,13 @@ async function handler(req, res) {
     return;
   }
   if (req.method === 'DELETE') {
+    const session = await getSession({ req });
+
+    if (!session) {
+      res.status(401).json({ message: 'Not authenticated!' });
+      return;
+    }
+
     const { email } = req.body;
 
     const client = await dbConnect();
