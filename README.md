@@ -26,12 +26,14 @@ I will be using Next.js as my solution for this project, mainly because Next.js 
 - API Routes Protection
 
 Future Improvement
+- Write Test Script
+- Add metadata for better SEO
+- Convert from console.log to Loading feedback
 - Use CSS Framework & Better Styling
 - Advanced Form Validation
-- Loading Feedback
 - Preview Password
 - Integrate Social Auth Providers
 - Better Error Handling
-- Role-based Sign In
+- Role-based Sign In(Admin / Customer)
 
 Many admins => Many customers
