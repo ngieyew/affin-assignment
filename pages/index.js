@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { getCustomers } from '../helpers/api-util';
 import Listing from '../components/customer/listing';
 
@@ -15,7 +14,7 @@ export async function getServerSideProps(context) {
 
   if (customers.length > 0) {
     const customerDetails = customers.map((user) => ({
-      _id: ObjectId(user._id).toString(),
+      publicId: user.publicId,
       email: user.email,
       name: user.name,
     }));

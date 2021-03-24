@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 import { hashPassword } from '../../../helpers/auth';
 import { dbConnect } from '../../../helpers/dbProvider';
 
@@ -38,6 +40,7 @@ async function handler(req, res) {
   const hashedPassword = await hashPassword(password);
 
   const result = await db.collection('users').insertOne({
+    publicId: nanoid(),
     email: email,
     password: hashedPassword,
     role: 'admin',

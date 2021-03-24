@@ -23,6 +23,7 @@ function CustomerForm(props) {
       const response = await fetch('/api/customer', {
         method: 'PATCH',
         body: JSON.stringify({
+          publicId: formData.publicId,
           email: emailInput,
           password: passwordInput,
           name: nameInput,

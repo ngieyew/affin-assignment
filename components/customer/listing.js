@@ -9,12 +9,12 @@ function Listing(props) {
     <div className={classes.cardContainer}>
       {users.length > 0 ? (
         users.map((user) => (
-          <div className={classes.card} key={user._id}>
+          <div className={classes.card} key={user.publicId}>
             <div className={classes.info}>
               <p>{user.name}</p>
             </div>
             <div className={classes.actions}>
-              <Link href={`/customer/${user._id}`}>
+              <Link href={`/customer/${user.publicId}`}>
                 <a className={classes.view}>Details</a>
               </Link>
             </div>

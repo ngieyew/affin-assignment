@@ -1,4 +1,5 @@
 import { getSession } from 'next-auth/client';
+import { nanoid } from 'nanoid';
 
 import { hashPassword } from '../../../helpers/auth';
 import { dbConnect } from '../../../helpers/dbProvider';
@@ -14,7 +15,7 @@ async function handler(req, res) {
     const existingUser = await db.collection('users').findOne({ email });
 
     client.close();
-    return;
+    return existingUser;
   }
   if (req.method === 'POST') {
     const session = await getSession({ req });
@@ -55,6 +56,7 @@ async function handler(req, res) {
     const hashedPassword = await hashPassword(password);
 
     const result = await db.collection('users').insertOne({
+      publicId: nanoid(),
       email: email,
       password: hashedPassword,
       role: 'customer',
@@ -73,7 +75,7 @@ async function handler(req, res) {
       return;
     }
 
-    const { email, password, name } = req.body;
+    const { publicId, email, password, name } = req.body;
 
     if (
       !email ||
@@ -93,7 +95,7 @@ async function handler(req, res) {
 
     const db = client.db();
 
-    const existingUser = await db.collection('users').findOne({ email });
+    const existingUser = await db.collection('users').findOne({ publicId });
 
     if (!existingUser) {
       res.status(422).json({ message: 'User does not Exist!' });
@@ -104,12 +106,12 @@ async function handler(req, res) {
     const hashedPassword = await hashPassword(password);
 
     const result = await db.collection('users').updateOne(
-      { email: existingUser.email },
+      { publicId },
       {
         $set: {
-          email: email,
+          email,
           password: hashedPassword,
-          name: name,
+          name,
         },
       }
     );

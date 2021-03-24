@@ -29,11 +29,12 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const customerId = context.params.customerId;
+  const publicId = context.params.customerId;
 
-  const customer = await getCustomerById(customerId);
+  const customer = await getCustomerById(publicId);
 
   const extractedInfo = {
+    publicId: customer.publicId,
     email: customer.email,
     name: customer.name,
   };

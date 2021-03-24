@@ -1,8 +1,13 @@
 import { getSession } from 'next-auth/client';
-import UserProfile from '../components/profile/user-profile';
+import { nanoid } from 'nanoid'
 
-function ProfilePage() {
-  return <p>Profile</p>;
+import { getUserByEmail } from '../helpers/api-util';
+import ProfileForm from '../components/profile/profile-form';
+
+function ProfilePage(props) {
+  const { user } = props;
+
+  return <ProfileForm user={user} />;
 }
 
 export async function getServerSideProps(context) {
@@ -17,8 +22,16 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const user = await getUserByEmail(session.user.email);
+
+  const extractedInfo = {
+    publicId: user.publicId,
+    email: user.email,
+    name: user.name || '',
+  };
+
   return {
-    props: { session },
+    props: { user: extractedInfo },
   };
 }
 
